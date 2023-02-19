@@ -53,12 +53,12 @@ PNG grayscale(PNG image) {
  * @param centerY The center y coordinate of the crosshair which is to be drawn.
  *
  * @return The image with a spotlight.
- */
-PNG createSpotlight(PNG image, int centerX, int centerY) {
+//  */
+// PNG createSpotlight(PNG image, int centerX, int centerY) {
 
-  return image;
+//   return image;
   
-}
+// }
  
 
 /**
@@ -72,10 +72,32 @@ PNG createSpotlight(PNG image, int centerX, int centerY) {
  * @return The illinify'd image.
 **/
 PNG illinify(PNG image) {
+  double min_distance_from_blue , min_distance_from_orange ;
+  double illini_blue = 216.0;
+  double illini_orange = 11.0;
+  for (unsigned x = 0; x < image.width(); x++)
+  {
+    for (unsigned y = 0; y < image.height(); y++)
+    {
+      HSLAPixel & pixel = image.getPixel(x, y);
+
+      min_distance_from_orange = abs(pixel.h - illini_orange) ;
+      min_distance_from_orange = std::min(min_distance_from_orange , (360 - min_distance_from_orange));
+
+      min_distance_from_blue = abs(pixel.h - illini_blue) ;
+      min_distance_from_blue = std::min(min_distance_from_blue , (360 - min_distance_from_blue));
+
+      if (min_distance_from_orange < min_distance_from_blue)
+        image.getPixel(x,y).h = 11.0;
+      else 
+        image.getPixel(x,y).h = 216.0;
+
+    }
+    
+  }
 
   return image;
 }
- 
 
 /**
 * Returns an immge that has been watermarked by another image.
@@ -89,7 +111,7 @@ PNG illinify(PNG image) {
 *
 * @return The watermarked image.
 */
-PNG watermark(PNG firstImage, PNG secondImage) {
+// PNG watermark(PNG firstImage, PNG secondImage) {
 
-  return firstImage;
-}
+//   return firstImage;
+// }
