@@ -190,8 +190,7 @@ namespace cs225 {
   std::size_t PNG::computeHash() const {
     std::hash<float> hashFunction;
     std::size_t hash = 0;
-
-
+    
     for (unsigned x = 0; x < this->width(); x++) {
       for (unsigned y = 0; y < this->height(); y++) {
         HSLAPixel & pixel = this->getPixel(x, y);

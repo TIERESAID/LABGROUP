@@ -54,12 +54,26 @@ PNG grayscale(PNG image) {
  *
  * @return The image with a spotlight.
 //  */
-// PNG createSpotlight(PNG image, int centerX, int centerY) {
+PNG createSpotlight(PNG image, int centerX, int centerY) {
+  double distance = 0;
 
-//   return image;
+  for (unsigned x = 0; x < image.width(); x++)
+  {
+    for (unsigned y = 0; y < image.height(); y++)
+    {
+      HSLAPixel & pixel = image.getPixel(x,y);
+      distance = sqrt((x - centerX)*(x - centerX) + (y - centerY)*(y - centerY));
+      double decrease_percentage = distance * 0.005;
+      if (decrease_percentage < 0.8)
+        pixel.l = pixel.l * (1 - decrease_percentage);
+      else 
+        pixel.l = pixel.l * 0.2;
+    }
+  }
+  return image;
   
-// }
- 
+}
+
 
 /**
  * Returns a image transformed to Illini colors.
@@ -91,7 +105,6 @@ PNG illinify(PNG image) {
         image.getPixel(x,y).h = 11.0;
       else 
         image.getPixel(x,y).h = 216.0;
-
     }
     
   }
@@ -111,7 +124,21 @@ PNG illinify(PNG image) {
 *
 * @return The watermarked image.
 */
-// PNG watermark(PNG firstImage, PNG secondImage) {
-
-//   return firstImage;
-// }
+PNG watermark(PNG firstImage, PNG secondImage) {
+  for (unsigned x = 0; x < firstImage.width(); x++)
+  {
+    for (unsigned y = 0; y < firstImage.height(); y++)
+    {
+      HSLAPixel & pixel_first_image = firstImage.getPixel(x,y);
+      HSLAPixel & pixel_second_image = secondImage.getPixel(x,y);
+      
+      if(pixel_second_image.l == 1.0){
+          pixel_first_image.l += 0.2 ;
+          if(pixel_first_image.l > 1.0)
+            pixel_first_image.l = 1.0 ;
+      }
+    }
+  }
+  
+  return firstImage;
+}
